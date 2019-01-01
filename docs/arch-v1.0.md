@@ -40,7 +40,7 @@ their own set of TM will be left for subsequent updates of the system.
 
 ## Design Rationale
 
-Answers to high level questions regarding the design of this system:
+Where we answer to high level questions regarding the design of this system:
 
 * Why this system, and not a blockchain like Bitcoin or Ethereum?
 * Why different services (APIs)?
@@ -49,7 +49,41 @@ Answers to high level questions regarding the design of this system:
 
 ### Why this system, and not a blockchain like Bitcoin or Ethrereum?
 
-TODO 02
+The spirit of _AutomaCoin_ is to perform _wasteless computation_. Today, a
+number of blockchain systems base their minting of blocks with a process called
+_Proof of Work_. Such task is using computing power to find a _hash_ given some
+_difficulty_. The latter guarantees the existance of a truly decentralized
+system, that is, there is no central authority, as cryptography is the ultimate
+guarantor of true.
+
+In our first iteration of _AutomaCoin_, we find a number of challenges that
+prevent us to take off with a system without any central authority at all:
+
+* Validation: The success of _Proof of Work_ is that, while it is hard to
+obtain a value satisfying the challenge, verifying such value is computationally
+simple. Currently, it is necessary to find a way to validate the results
+obtained for a set of TMs, other than executing the very TMs and comparing.
+
+* Block minting: The difficulty of a certain block is revisited in its chain
+depending on the time it takes to produce them. That is, we can infer the
+_hashrate_ able to produce these blocks, and adjust the _difficulty_ such that
+blocks are produced with a known interval. This calculation is practical due
+to the uniform distribution of hashes and the proportional probability of
+finding one obeying the required features given by the _difficulty_ value (ex:
+_by varying your nonce, find a hash from this set of values that starts with
+five zeroes_). In the case of the space of TMs, given a set of machines, even if
+we set a maximum number of steps to consider that a machine won't halt, we
+cannot forecast the average number of steps a set of machines has. One of the
+goals of this **Beaver Project** is explore whether we can have find by
+practical means measures to help us on our exploration.
+
+* Awarding: Both in Bitcoin, as well as Ethereum, the rewards for computing a
+block are very clear and hardcoded into their protocol. A change into the
+awarding rate implies what is called as a _hard fork_, taking extensive
+coordination, as the cryptocurrency mined at block 1 is the same unit as the one
+mined at block 3MM and so on. We desire to have an _era_ system to be more
+malleable to changes in our design until we find an optimate combination that
+balances discovery of TM output against rewarding.
 
 ### Why different services (APIs)?
 
