@@ -33,10 +33,10 @@ their own set of TM will be left for subsequent updates of the system.
 
 ## Table of Contents
 
-* Design Rationale
-* System Components
-* User Stories
-* JSON API Specifications
+* [Design Rationale](#design-rationale)
+* [System Components](#components)
+* [User Stories](#user-stories)
+* [JSON API Specifications](#json-api-specifications)
 
 ## Design Rationale
 
