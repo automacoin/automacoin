@@ -333,7 +333,6 @@ The process to obtain the Signature is as follows:
 ```
 StringToSign = HTTP-Verb + "\n" +
                sha256(Payload) + "\n" +
-               epoch + "\n" +
                resource;
 
 Signature = sha256(StringToSign);
