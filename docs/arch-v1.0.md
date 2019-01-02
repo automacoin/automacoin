@@ -273,29 +273,28 @@ It is expected in this version to have low throughput.
 
 ### Pool Manager
 
-TODO 07
+The pool manager is the gateway of the clients with _AutomaCoin_. Clients will
+connect with the pool manager, and via authenticated messages they are able to
+receive a new set of TMs to compute. In this first iteration is this manager
+the one that modifies the _balance_ of an account after receiving (and lightly
+verify) a set of solved TMs.
+
+In *v1.0* there will be a single **Pool Manager** running in a hosted service.
+
+````
+pool.automacoin.com
+````
 
 ### Web Site
 
-TODO 08
+Responsible to render an `HTML/CSS/JS` webpage, showing statistics of
+_AutomaCoin_ to the public.
 
 ### Clients
 
-TODO 09
-
-## User Stories
-
-### Client: Computation of a new set of TMs
-
-TODO 10
-
-### Client: Querying the result of a set of TMs
-
-TODO 11
-
-### Website: ?
-
-TODO 12
+The most interesting part of the System of *v1.0*: with the API released, and
+the system in motion, different teams can work optimizing their algorithms to
+compute more efficiently their assigned TMs in order to increase their reward.
 
 ## JSON API Specifications
 
