@@ -74,8 +74,8 @@ _by varying your nonce, find a hash from this set of values that starts with
 five zeroes_). In the case of the space of TMs, given a set of machines, even if
 we set a maximum number of steps to consider that a machine won't halt, we
 cannot forecast the average number of steps a set of machines has. One of the
-goals of this **Beaver Project** is explore whether we can have find by
-practical means measures to help us on our exploration.
+goals of this **Beaver Project** is explore whether we can find by practical
+means measures to help us on our exploration.
 
 * Awarding: Both in Bitcoin, as well as Ethereum, the rewards for computing a
 block are very clear and hardcoded into their protocol. A change into the
@@ -87,8 +87,17 @@ balances discovery of TM output against rewarding.
 
 ### Why different services (APIs)?
 
-TODO 03
-	- Enable developers to come up with their own approaches to the solution
+* Provides a quick, easy to agree communications standard, that we can evolve
+in further versions.
+
+* Enable developers to come up with their own approaches to the solution. In
+other words, as long as a **client** complies with the API protocol to
+communicate with the **pool manager**, then anybody can implement their own
+client, with the optimizations they see fit in the language they prefer. We
+envision that eventually, given that the computations will be rewarded,
+optimum ways to compute the TMs will emerge.
+
+* Facilitate specialization from the contributors.
 
 ### Why a Patricia Merkle Trie for the storage?
 
