@@ -317,13 +317,143 @@ the system to deal with the original sender.
 
 ## JSON API Specifications
 
+### Storage System
+
+The following REST API methods can only be performed by the **pool manager**.
+It is imperative the public key of the latter to be registered in the
+**storage system**.
+
+#### `POST /uncomputed-tms/<max-tms>`
+
+Obtains a list up to `max-tms` of Turing machines to be distributed to
+requesting clients.
+
+````bash
+## Request
+
+{
+  ## /* ECDSA signature data */
+}
+
+
+## Response
+
+  "data": {
+    "version": "v1.0",
+    "tms": [
+      {
+        "A0":"1BL",
+        "A1":"1H",
+        "B0":"0CR",
+        "B1":"0CR",
+        "C0":"0DR",
+        "C1":"1ER",
+        "D0":"0DL",
+        "D1":"1AL",
+        "E0":"1AR",
+        "E1":"1AL"
+      },
+      {
+        ...
+      }
+    ]
+  },
+  ## /* ECDSA signature data */
+}
+
+````
+
+#### `POST /assigned-tms/<user>`
+
+````bash
+## Request
+
+{
+  "data": {
+    "version": "v1.0",
+    "tms": [
+      "66154f2bab17cc6f0de81f0b121a4c9979ba993aa55fd1b9a372509084148a96",
+      ...
+    ]
+  },
+
+  ## /* ECDSA signature data */
+}
+
+
+## Response
+
+  "data": {
+    "OK"
+  },
+
+  ## /* ECDSA signature data */
+}
+````
+
+#### `POST /computed-tms/<user>`
+
+````bash
+## Request
+
+{
+  "data": {
+    "version": "v1.0",
+    "tms": [
+      {
+        "id": "66154f2bab17cc6f0de81f0b121a4c9979ba993aa55fd1b9a372509084148a96",
+        "result": "10001"
+      },
+      {
+        "id": "9cf77ea9393297fea3d48c3e6c1a454d73f812dc429bef923ac725c62484f396",
+        "result": "H"
+      },
+      ...
+    ]
+  },
+
+  ## /* ECDSA signature data */
+}
+
+## Response
+
+  "data": {
+    "OK"
+  },
+
+  ## /* ECDSA signature data */
+}
+````
+
+#### `POST /award/<user>`
+
+````bash
+## Request
+
+{
+  "data": {
+    "version": "v1.0",
+    "award": "0.02",
+    "era": "15",
+    "timestamp": "1546414363",
+    "nonce": "14"
+  },
+
+  ## /* ECDSA signature data */
+}
+
+## Response
+
+  "data": {
+    "OK"
+  },
+
+  ## /* ECDSA signature data */
+}
+````
 ### Pool Manager
 
 TODO 13
-
-### Storage System
-
-TODO 14
 
 ### Web Site
 
