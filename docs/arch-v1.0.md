@@ -101,11 +101,32 @@ optimum ways to compute the TMs will emerge.
 
 ### Why a Patricia Merkle Trie for the storage?
 
-TODO 04
+This data structure, as defined in [Ethereum](https://github.com/ethereum/wiki/wiki/Patricia-Tree#modified-merkle-patricia-trie-specification-also-merkle-patricia-tree),
+provides a number of convenient aspects:
+
+* It is ultimately a key value store.
+* Provides `O(log(n))` for inserts and lookups.
+* Validates into a unique hash called the _root_.
+* It is _shardeable_, which is convenient for replication and backups.
 
 ### Can we evolve this distributed system into a truly decentralized one?
 
-TODO 05
+Three practical problems need to be solved, or more knowledge to be obtained,
+in order to use the calculation of set of TMs as a substitute of the _Proof of
+Work_:
+
+* To come up with a satisfactory validation mechanism for the computed TMs.
+This procedure does not to be a novel one. For example, *clents* can commit
+their computed sets, receive an award from the system, and be punished in future
+iterations if after some random validation they cheated.
+
+* Find in one of the iterations of this project a practical measure for sets
+of TMs able to infer a distribution for the time it would take to solve these
+machines (i.e. find their outputs at halting, or whether they can halt at all).
+Today, for blockchains, given a certain _difficulty_, there is an expected
+value for the time it would take to arrive at a block, given a _hashrate_.
+
+* Discover the most stable and efficient way to award the computation of TMs.
 
 ## Components
 
