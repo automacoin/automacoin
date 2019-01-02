@@ -101,7 +101,8 @@ optimum ways to compute the TMs will emerge.
 
 ### Why a Patricia Merkle Trie for the storage?
 
-This data structure, as defined in [Ethereum](https://github.com/ethereum/wiki/wiki/Patricia-Tree#modified-merkle-patricia-trie-specification-also-merkle-patricia-tree),
+This data structure,
+as defined in [Ethereum](https://github.com/ethereum/wiki/wiki/Patricia-Tree),
 provides a number of convenient aspects:
 
 * It is ultimately a key value store.
