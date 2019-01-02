@@ -317,13 +317,38 @@ the system to deal with the original sender.
 
 ## JSON API Specifications
 
+### Authentication of the requests
+
+The REST API uses the `Authorization` header to pass authentication information,
+with the following form
+
+```
+Authorization: AutomaCoin ECDSAPublicId:Signature
+```
+
+Where the receiver must have the requester's `ECDSAPublicId` registered.
+
+The process to obtain the Signature is as follows:
+
+```
+StringToSign = HTTP-Verb + "\n" +
+               sha256(Payload) + "\n" +
+               epoch + "\n" +
+               resource;
+
+Signature = sha256(StringToSign);
+```
+
+If the message does not contain a payload (expected in a `GET` request, for
+example), then `sha256(Payload)` must be left blank.
+
 ### Storage System
 
 The following REST API methods can only be performed by the **pool manager**.
 It is imperative the public key of the latter to be registered in the
 **storage system**.
 
-#### `POST /uncomputed-tms/<max-tms>`
+#### `GET /uncomputed-tms/<max-tms>`
 
 Obtains a list up to `max-tms` of Turing machines to be distributed to
 requesting clients.
@@ -331,10 +356,7 @@ requesting clients.
 ````bash
 ## Request
 
-{
-  ## /* ECDSA signature data */
-}
-
+## No payload
 
 ## Response
 
@@ -358,7 +380,6 @@ requesting clients.
       }
     ]
   },
-  ## /* ECDSA signature data */
 }
 
 ````
@@ -376,8 +397,6 @@ requesting clients.
       ...
     ]
   },
-
-  ## /* ECDSA signature data */
 }
 
 
@@ -386,8 +405,6 @@ requesting clients.
   "data": {
     "OK"
   },
-
-  ## /* ECDSA signature data */
 }
 ````
 
@@ -411,8 +428,6 @@ requesting clients.
       ...
     ]
   },
-
-  ## /* ECDSA signature data */
 }
 
 ## Response
@@ -420,8 +435,6 @@ requesting clients.
   "data": {
     "OK"
   },
-
-  ## /* ECDSA signature data */
 }
 ````
 
@@ -438,8 +451,6 @@ requesting clients.
     "timestamp": "1546414363",
     "nonce": "14"
   },
-
-  ## /* ECDSA signature data */
 }
 
 ## Response
@@ -447,14 +458,24 @@ requesting clients.
   "data": {
     "OK"
   },
-
-  ## /* ECDSA signature data */
 }
 ````
 ### Pool Manager
 
-TODO 13
+The following REST API methods are to be performed by the **client**
 
-### Web Site
+#### `GET /new-tm-set`
 
-TODO 15
+....
+
+#### `GET /tm-set/<id>`
+
+....
+
+#### `POST /computed-tm-set/<id>`
+
+....
+
+#### `GET /award/<tm-set>`
+
+....
