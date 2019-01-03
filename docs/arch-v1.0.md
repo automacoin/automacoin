@@ -297,7 +297,7 @@ the system in motion, different teams can work optimizing their algorithms to
 compute more efficiently their assigned TMs in order to increase their reward.
 
 At a high level, the **client** connects with the **pool manager**, via
-authenticated (signing with their `ECDSA` private key) messages, asking for a
+authenticated JSON RPC messages, asking for a
 new set of TMs to compute. If available in the **storage system**, the **pool
 manager** will oblige with a set, and disconnect.
 
