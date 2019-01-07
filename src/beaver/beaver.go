@@ -13,7 +13,7 @@ import (
 */
 
 // States of the turing machines (n)
-const STATES = 2
+const STATES = 3
 
 // MAX_NUMBER_OF_STEPS will halt the machine, discarding its output
 const MAX_NUMBER_OF_STEPS = 108
@@ -277,8 +277,8 @@ func main() {
 		result := tm.getResultingString()
 		if result == "" {
 			// if empty, it means the machine didn't halted at MAX_NUMBER_OF_STEPS
-			// we increment our HALTED key anyways
-			result = "HALTED"
+			// we increment our notH key anyways
+			result = "nonH"
 		}
 		if i, ok := resultMap[result]; !ok {
 			resultMap[result] = 1
