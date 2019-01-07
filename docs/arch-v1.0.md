@@ -352,6 +352,9 @@ It is imperative the public key of the latter to be registered in the
 Obtains a list up to `max-tms` of Turing machines to be distributed to
 requesting clients.
 
+The **storage system** should rely on a microservice able to prepare
+this list of turing machines.
+
 ````bash
 ## Request
 
