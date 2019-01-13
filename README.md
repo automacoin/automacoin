@@ -4,7 +4,7 @@ Finding the universal distribution using an incentivized mesh of turing machines
 
 ## Documentation
 
-* [Architecture, v1.0](docs/arch-v1.0.md)
+* [Architecture, v1.0](docs/v1.0/00-index.md)
 
 
 ## References
