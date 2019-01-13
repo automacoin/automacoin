@@ -1,7 +1,10 @@
-# The Beaver Project
-# System Architecture v1.0
+## The Beaver Project
+## System Architecture v1.0
 
-## Abstract
+### Abstract
+
+The present document describes the first version of the _AutomaCoin_ system,
+from now, **v1.0**.
 
 The purpose of this system is to explore the Turing Machine space (of different
 types, differing in number of states, symbols and, dimensions). This exploration
@@ -13,8 +16,7 @@ The scope of this project on its first version is constrained to understand the
 challenges of distributing these tasks over a number of clients, enabling them
 to be awarded in a currency we are calling _AutomaCoin_.
 
-The present document describes the first version of the _AutomaCoin_ system,
-from now, **v1.0**.
+
 
 In one single paragraph, this is a multi-service architecture, each service
 communicating to each other via JSON API. There is a huge size (Terabyte, maybe
@@ -27,11 +29,17 @@ and assign an _AutomaCoin_ reward to the **client**. The latter, as well as any
 other user, can verify the space of TMs solved, the awards given and other data
 to a **web site** feeding from the **database**.
 
-Fine grained discussions, such as the verification of the computations, their
-challenge by other **clients**; as well as the chance of a **client** to choose
-their own set of TM will be left for subsequent updates of the system.
+Bigger challenges
 
-## Table of Contents
+* Arrive to a satisfactory resolution and **Protocol** for the following items:
+  * **Verification** of solved computation sets.
+  * Ability to **challenge** solved computation sets.
+  * **Awarding** of _AutomaCoin_ tokens.
+  * **Storage Categories** for the clients and subsequent **Distribution of the database**.
+* Face total decentralization of the system, and roadmap accordingly.
+
+
+### Table of Contents
 
 * Design Rationale
   * [Distributed System](design-rationale-distributed-system.md)
