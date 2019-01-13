@@ -42,13 +42,14 @@ their own set of TM will be left for subsequent updates of the system.
   * [Database](components-database.md)
   * [Pool Manager](components-pool-manager.md)
   * [Website](components-website.md)
-  * [Client](components-website.md)
+  * [Client](components-client.md)
 * Use Cases
   * [Computing a Set of Turing Machines](use-case-computing-a-set-of-tms.md)
   * [Challenging the Result of a Set of Computations](use-case-challenging-results.md)
   * [Querying String Frequencies](use-case-querying-string-frequencies.md)
   * [Querying AutomaCoin Awards](use-case-querying-awards.md)
 * JSON API Specifications
+  * [Authentication](json-api-authenticating-requests.md)
   * [Database](json-api-database.md)
-  * [Pool Manager](json-api-database.md)
-  * [Website](json-api-database.md)
+  * [Pool Manager](json-api-pool-manager.md)
+  * [Website](json-api-website.md)
