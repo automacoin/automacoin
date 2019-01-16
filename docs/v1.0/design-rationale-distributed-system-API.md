@@ -1,6 +1,6 @@
 ### Why different services (APIs)?
 
-* Provides a quick, easy to agree communications standard, that we can evolve
+* Provide a quick, easy to agree communications standard, that we can evolve
 in further versions.
 
 * Enable developers to come up with their own approaches to the solution. In
