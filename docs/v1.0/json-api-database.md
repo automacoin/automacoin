@@ -2,14 +2,14 @@
 
 The following REST API methods can only be performed by the **pool manager**.
 It is imperative the public key of the latter to be registered in the
-**storage system**.
+**Database**.
 
 #### `GET /uncomputed-tms/<max-tms>`
 
 Obtains a list up to `max-tms` of Turing machines to be distributed to
 requesting clients.
 
-The **storage system** should rely on a microservice able to prepare
+The **Database** should rely on a microservice able to prepare
 this list of turing machines.
 
 ````bash
@@ -43,7 +43,47 @@ this list of turing machines.
 
 ````
 
+#### `POST /non-halting`
+
+Sending all the machines determined by the **Pool Manager** to not halt.
+For example: TMs that do not contain the transition to the _HALT State_.
+
+````bash
+## Request
+
+{
+  "data": {
+    "version": "v1.0",
+    "set-id": "145",
+    "tms": [
+      {
+        "id": "66154f2bab17cc6f0de81f0b121a4c9979ba993aa55fd1b9a372509084148a96"
+      },
+      {
+        "id": "9cf77ea9393297fea3d48c3e6c1a454d73f812dc429bef923ac725c62484f396"
+      },
+      ...
+    ]
+  },
+}
+
+## Response
+
+  "data": {
+    "OK"
+  },
+}
+````
+
 #### `POST /assigned-tms/<user>`
+
+The **Pool Manager** responds to the **Client** with a list of TMs to be computed.
+
+* The **PM** sends a `POST /assigned-tms/<user>` to the **Database**. This
+  step prevents the **Database** to send the TMs to a different request.
+
+* A Time to Live (TTL) time should be considered for an assigned TM inside
+  the **Database**.
 
 ````bash
 ## Request
