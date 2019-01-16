@@ -39,11 +39,7 @@ Bigger challenges in this iteration:
 
 ### Table of Contents
 
-* Design Rationale
-  * [Distributed System](design-rationale-distributed-system-API.md)
-  * [Challenges to become a Decentralized System](design-rationale-challenges-decentralized-system.md)
-  * [Storage: Now and Vision](design-rationale-storage-now-and-vision.md)
-  * [Incentivization](design-rationale-incentivization.md)
+* [Design Rationale](design-rationale.md)
 * Use Cases
   * [Computing a Set of Turing Machines](use-case-computing-a-set-of-tms.md)
   * [Challenging the Result of a Set of Computations](use-case-challenging-results.md)
