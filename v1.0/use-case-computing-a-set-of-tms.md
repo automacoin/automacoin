@@ -23,7 +23,9 @@ This is the core activity of this system.
     be enumerated using integers, and for a metodology to translate the
     integer id of a TM to the proper TM back and forth. As the number of TMs
     in a space can be of the number of millions, if not billions, even
-    trillions. Therefore, having the TMs assigned in a non sucessive way can
+    trillions. Therefore, having the TMs assigned in a non sucessive
+
+ way can
     lead to an overuse of storage space.
 
 ### Use Case algorithm
