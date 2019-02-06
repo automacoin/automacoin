@@ -39,7 +39,7 @@ assigned TM set before getting a new one.
 
 ````
 
-#### `POST /computed-tm-set`
+#### `POST /tm-set`
 
 Sends to the **pool manager** the computed set of TMs. The manager will
 verify that all the assigned TMs have been computed.
@@ -62,32 +62,6 @@ verify that all the assigned TMs have been computed.
       },
       ...
     ]
-  },
-}
-
-## Response
-
-  "data": {
-    "OK"
-  },
-}
-````
-
-#### `GET /award/<set-id>`
-
-Queries the **pool manager** for the award obtained for a certain set of TMs
-
-````bash
-## Request
-
-{
-  "data": {
-    "version": "v1.0",
-    "award": "0.02",
-    "era": "15",
-    "set-id": "145",
-    "timestamp": "1546414363",
-    "nonce": "14"
   },
 }
 
