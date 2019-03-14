@@ -4,7 +4,7 @@ The following REST API methods can only be performed by the **pool manager**.
 It is imperative the public key of the latter to be registered in the
 **Database**.
 
-#### `GET /tm-set/<max-tms>`
+#### `GET /tm-set/available/<max-tms>`
 
 Obtains a list up to `max-tms` of Turing machines to be distributed to
 requesting clients.
@@ -43,7 +43,7 @@ this list of turing machines.
 
 ````
 
-#### `POST /tm-assigned/<user-id>`
+#### `POST /tm-set/assigned/<user-id>`
 
 The **Pool Manager** responds to the **Client** with a list of TMs to be computed.
 
@@ -76,7 +76,7 @@ The **Pool Manager** responds to the **Client** with a list of TMs to be compute
 }
 ````
 
-#### `POST /tm-computed/<user-id>`
+#### `POST /tm-set/computed/<user-id>`
 
 Writes to the database the obtained computed TMs
 

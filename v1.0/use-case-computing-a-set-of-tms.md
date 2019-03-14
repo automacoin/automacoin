@@ -10,6 +10,8 @@ This is the core activity of this system.
     must be coordinated in advance to use this system, as there is not an
     automatic (i.e. _not human_) process to add _public keys_ to the system.
 
+... ECDSA pool manager database
+
 * The **Pool Manager** (**PM**) must prepare in advance from the **Database**
   the Turing Machines to be processed.
   * The former can be accomplished by the **PM** by use of the
