@@ -3,8 +3,10 @@
 Finding the universal distribution using an incentivized mesh of turing machines https://www.automacoin.com/
 
 ## Documentation
+### Dependencies
 
-* [Architecture, v1.0](v1.0/00-index.md)
+
+* [Architecture, v1.0](docs/00-index.md)
 
 ## References
 
