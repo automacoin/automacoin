@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/automacoin/automacoin#readme",
   "dependencies": {
+    "csv": "^5.3.1",
     "grumle-turing": "^1.0.3"
   }
 }
