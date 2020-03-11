@@ -26,5 +26,8 @@
   "dependencies": {
     "csv": "^5.3.1",
     "grumle-turing": "^1.0.3"
+  },
+  "devDependencies": {
+    "tape-modern": "^1.1.2"
   }
 }
