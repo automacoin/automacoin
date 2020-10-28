@@ -1,10 +1,15 @@
 # AutomaCoin
 
-Finding the universal distribution using an incentivized mesh of turing machines https://www.automacoin.com/
+A distributed network of incentivized volunteers collaboratively exploring the universal distribution and collecting the tape outputs for Turing Machines to the benefit of future science.
 
 ## Documentation
+See the wiki for a walkthrough of the design.
 
-* [Architecture, v1.0](v1.0/00-index.md)
+Note: The outdated documents that are not maintained can be found in the `docs` folder.
+
+## Development
+This stage of development is focused on the volunteer computing swarm, and building the necessary components to move from AWS to a p2p network. 
+
 
 ## References
 
