@@ -1,0 +1,223 @@
+scilla_version 0
+(***************************************************)
+(*               Associated library                *)
+(***************************************************)
+import PairUtils
+library Distributor
+
+  
+let one_msg =
+  fun (m : Message) =>
+    let e = Nil {Message} in
+    Cons {Message} m e
+
+let two_msgs =
+  fun (msg1 : Message) =>
+  fun (msg2 : Message) =>
+    let msgs_tmp = one_msg msg2 in
+    Cons {Message} msg1 msgs_tmp
+  
+type Error =
+| NonOwnerCannotCall
+| CodeContractNotPaused
+| CodeContractPaused
+| IncorrectToken
+| IncorrectSender
+
+(* Error events *)
+let mk_error_event =
+  fun (err : Error) =>
+  let err_code = 
+    match err with
+    | NonOwnerCannotCall        => Int32 -1
+    | CodeContractNotPaused     => Int32 -2
+    | CodeContractPaused        => Int32 -3
+    | IncorrectToken            => Int32 -4
+    | IncorrectSender           => Int32 -5
+  
+    end in
+    { _exception : "Error"; code : err_code }
+
+let false = False
+let true = True
+let zero = Uint128 0
+
+
+(***************************************************)
+(*             The contract definition             *)
+(*                                                 *)
+(* This contract enables a token to be distributed *)
+(* as a reward. The token may be claimed, but any  *)
+(* tokens left between distributions will be summed*)
+(*                                                 *)
+(* WARNING: If the owner loses their private key   *)
+(* they will be unable to interact with the smart  *)
+(* contract, for this reason a recovery wallet may *)
+(* be desirable to set in order to prevent losses. *)
+(*                                                 *)
+(***************************************************)
+contract Distributor
+(
+owner           : ByStr20,
+token_address   : ByStr20,
+token_distributor    : ByStr20
+)
+
+(*               Field Definitions              *)
+field contract_owner: ByStr20 = owner
+field paused : Bool = false
+field pending_owner : Option ByStr20 = None {ByStr20}
+field remaining : Uint128 = zero
+(* Mapping from staker to number of remaining tokens *)
+field debits: Map ByStr20 Uint128 = Emp ByStr20 Uint128
+
+(*                Begin Procedures              *)
+
+procedure ThrowError (err : Error)
+  e = mk_error_event err;
+  throw e
+end
+
+procedure IsOwner()
+  wallet <- contract_owner;
+  is_wallet_owner = builtin eq wallet _sender;
+  match is_wallet_owner with
+  | True => 
+  | False =>
+    err = NonOwnerCannotCall;
+    ThrowError err
+  end
+end
+
+procedure IsPaused()
+  pause_status <- paused;
+  match pause_status with
+  | False => 
+    err = CodeContractNotPaused;
+    ThrowError err
+  | True =>
+  end
+end
+procedure IsNotPaused()
+  pause_status <- paused;
+  match pause_status with
+  | True => 
+    err = CodeContractPaused;
+    ThrowError err
+  | False =>
+  end
+end
+
+(*  Send the funds owed to the debted wallet regardless of who calls the transition *)
+procedure claim(owner: ByStr20)
+  end
+
+procedure distribution()
+end
+
+(*                    Begin Transitions                       *)
+transition Distribute(to: List ByStr20, amount: List Uint128 )
+  IsNotPaused;
+  IsOwner
+end
+
+(*shift from the allocation to open phase*)
+transition Claim()
+  IsNotPaused
+end
+
+transition MultiClaim()
+end
+
+
+transition Pause()
+  IsNotPaused;
+  IsOwner;
+  paused := true;
+  e = { _eventname : "Contract Paused" };
+  event e
+end
+
+transition Resume()
+  IsPaused;
+  IsOwner;
+  paused := false;
+  e = { _eventname : "Contract Unpaused" };
+  event e
+end
+
+
+
+(*      SAFE OWNERSHIP TRANSFER TRANSITIONS   *)
+
+transition RequestOwnershipTransfer(new_owner: ByStr20)
+  IsOwner;
+  po = Some {ByStr20} new_owner;
+  pending_owner := po
+end
+
+transition ConfirmOwnershipTransfer()
+  optional_po <- pending_owner;
+  match optional_po with
+  | Some pend_owner =>
+      caller_is_new_owner = builtin eq _sender pend_owner;
+      match caller_is_new_owner with
+      | True =>
+          (* transfer ownership *)
+          contract_owner := pend_owner;
+          none = None {ByStr20};
+          pending_owner := none
+      | False => (* the caller is not the new owner, do nothing *)
+      end
+  | None => (* ownership transfer is not in-progress, do nothing *)
+  end
+end
+
+  
+
+
+transition WithdrawRewardTokens(amount:Uint128, recipient:ByStr20)
+  IsOwner;
+  rem<-remaining;
+  new_rem = builtin sub rem amount;
+  remaining := new_rem;
+  msg_to_token = {_tag: "Transfer"; _recipient: token_address ; _amount: zero; to:recipient; amount:amount};
+  msgs = one_msg msg_to_token;
+  send msgs
+end
+
+(*DO NOT USE except in case of distaster*)
+transition CatastrophicWithdrawTokens(amount:Uint128, recipient:ByStr20)
+  IsOwner;
+  msg_to_token = {_tag: "Transfer"; _recipient: token_address ; _amount: zero; to:recipient; amount:amount};
+  msgs = one_msg msg_to_token;
+  send msgs
+end
+
+(*  msg_to_sender = {_tag : "TransferSuccessCallBack"; _recipient : _sender; _amount : zero;
+                  sender : _sender; recipient : to; amount : amount};*)
+transition  TransferSuccessCallBack( sender: ByStr20, recipient: ByStr20, amount:Uint128)
+end
+
+(*msg_to_recipient = {_tag : "RecipientAcceptTransfer"; _recipient : to; _amount : zero;
+                      sender : _sender; recipient : to; amount : amount};*)
+transition  RecipientAcceptTransfer( sender: ByStr20, recipient: ByStr20, amount:Uint128)
+(* only accept transfers from the designated contract, and the designated token owner must be the sender*)
+correct_contract = builtin eq _sender token_address;
+match correct_contract with
+  | False =>
+    err = IncorrectToken;
+    ThrowError err
+  | True =>
+  correct_sender = builtin eq sender token_distributor;
+  match correct_sender with
+    | False =>
+      err = IncorrectSender;
+      ThrowError err
+    | True =>
+    current_remaining <- remaining;
+    new_remaining = builtin add current_remaining amount;
+    remaining := new_remaining
+  end
+end
+end
