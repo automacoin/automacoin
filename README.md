@@ -20,8 +20,8 @@ https://viewblock.io/zilliqa/address/zil12gmttkjr2s2e4vs2z9v8tgscw2evnw42yzkc45?
 
 Distributor:
 
-0xc4a3db8100408731f89a89c26f13ed8cc4070797
-https://viewblock.io/zilliqa/address/zil1cj3ahqgqgzrnr7y638px7yld3nzqwpuhq45zfu?network=testnet
+0xfc1623a66b25c9a5601eaf03fb747afcb86fd28c
+https://viewblock.io/zilliqa/address/zil1lstz8fntyhy62cq74uplkar6ljuxl55vzfpwnk?network=testnet
 
 
 ## The coin

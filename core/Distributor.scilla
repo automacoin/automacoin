@@ -119,7 +119,10 @@ procedure claim(claimant: ByStr20)
       ThrowError err
     | Some reward =>
         delete rewards[claimant];
-        msg_to_token = {_tag: "Transfer"; _recipient: token_address ; _amount: zero; to:claimant; amount:current_left};
+        old_rem <-remaining;
+        new_rem = builtin sub old_rem reward;
+        remaining := new_rem;
+        msg_to_token = {_tag: "Transfer"; _recipient: token_address ; _amount: zero; to:claimant; amount:reward};
         msgs = one_msg msg_to_token;
         send msgs
       
