@@ -2,7 +2,7 @@ scilla_version 0
 (***************************************************)
 (*               Associated library                *)
 (***************************************************)
-import PairUtils
+import PairUtils ListUtils
 library Distributor
 
   
@@ -23,6 +23,7 @@ type Error =
 | CodeContractPaused
 | IncorrectToken
 | IncorrectSender
+| NoRewards
 
 (* Error events *)
 let mk_error_event =
@@ -34,6 +35,7 @@ let mk_error_event =
     | CodeContractPaused        => Int32 -3
     | IncorrectToken            => Int32 -4
     | IncorrectSender           => Int32 -5
+    | NoRewards                 => Int32 -6
   
     end in
     { _exception : "Error"; code : err_code }
@@ -69,7 +71,7 @@ field paused : Bool = false
 field pending_owner : Option ByStr20 = None {ByStr20}
 field remaining : Uint128 = zero
 (* Mapping from staker to number of remaining tokens *)
-field debits: Map ByStr20 Uint128 = Emp ByStr20 Uint128
+field rewards: Map ByStr20 Uint128 = Emp ByStr20 Uint128
 
 (*                Begin Procedures              *)
 
@@ -109,24 +111,59 @@ procedure IsNotPaused()
 end
 
 (*  Send the funds owed to the debted wallet regardless of who calls the transition *)
-procedure claim(owner: ByStr20)
+procedure claim(claimant: ByStr20)
+  current_left <- rewards[claimant];
+    match current_left with 
+    | None => 
+      err = NoRewards;
+      ThrowError err
+    | Some reward =>
+        delete rewards[claimant];
+        msg_to_token = {_tag: "Transfer"; _recipient: token_address ; _amount: zero; to:claimant; amount:current_left};
+        msgs = one_msg msg_to_token;
+        send msgs
+      
   end
+end
 
-procedure distribution()
+procedure distribution(input_pair: Pair ByStr20 Uint128)
+  to = let fst_uint_bystr20 = @fst ByStr20 Uint128 in
+    fst_uint_bystr20 input_pair;
+  amount = let snd_uint_bystr20 = @snd ByStr20 Uint128 in
+    snd_uint_bystr20 input_pair;
+
+  (* Check if reward account exists *)
+  some_rewards <- rewards[to];
+  match some_rewards with
+  | Some bal =>
+      total = builtin add amount bal;
+      rewards[to] := total
+  | None =>
+      rewards[to] := amount
+    end
 end
 
 (*                    Begin Transitions                       *)
-transition Distribute(to: List ByStr20, amount: List Uint128 )
+
+(* @dev:    add multiple reward tokens at once. Only owner can call. *)
+(* @param:  to_list         - Addressses of the token recipient      *)
+(* @param:  rewards_list    - Amount of the token rewarded           *)
+transition Distribute(to_list: List ByStr20, rewards_list: List Uint128)
   IsNotPaused;
-  IsOwner
+  IsOwner;
+  pair_two_list = @list_zip ByStr20 Uint128;
+  input_list = pair_two_list to_list rewards_list;
+  forall input_list distribution;
+  msg_to_sender = { _tag : "DistributeCallback"; _recipient : _sender; _amount : Uint128 0 };
+  msgs = one_msg msg_to_sender;
+  send msgs
 end
+
 
 (*shift from the allocation to open phase*)
-transition Claim()
-  IsNotPaused
-end
-
-transition MultiClaim()
+transition Claim(claimant: ByStr20)
+  IsNotPaused;
+  claim claimant
 end
 
 
@@ -176,7 +213,7 @@ end
   
 
 
-transition WithdrawRewardTokens(amount:Uint128, recipient:ByStr20)
+transition WithdrawTokens(amount:Uint128, recipient:ByStr20)
   IsOwner;
   rem<-remaining;
   new_rem = builtin sub rem amount;
@@ -186,13 +223,7 @@ transition WithdrawRewardTokens(amount:Uint128, recipient:ByStr20)
   send msgs
 end
 
-(*DO NOT USE except in case of distaster*)
-transition CatastrophicWithdrawTokens(amount:Uint128, recipient:ByStr20)
-  IsOwner;
-  msg_to_token = {_tag: "Transfer"; _recipient: token_address ; _amount: zero; to:recipient; amount:amount};
-  msgs = one_msg msg_to_token;
-  send msgs
-end
+
 
 (*  msg_to_sender = {_tag : "TransferSuccessCallBack"; _recipient : _sender; _amount : zero;
                   sender : _sender; recipient : to; amount : amount};*)
